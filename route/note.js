@@ -38,7 +38,7 @@ noteroute.delete("/:id",userauth , async function(req,res){
 
 })
 noteroute.get("/",userauth , async function(req,res){
-
+    
 })
 noteroute.get("/search",userauth , async function(req,res){
 
