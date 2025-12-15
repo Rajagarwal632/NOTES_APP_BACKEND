@@ -16,8 +16,8 @@ const notes = new Schema({
     content : String,
     userid : {type:objectid,ref : "user"},
     archived : {type : Boolean , default : false},
-    createdat : {type: Date, default: Date.now},
-    updatedat : {type: Date, default: Date.now}
+    createdate : {type: Date, default: Date.now},
+    updatedate : {type: Date, default: Date.now}
 })
 
 //for search optimization
