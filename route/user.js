@@ -40,7 +40,32 @@ userroute.post("/signup" , async function(req,res) {
 })
 
 userroute.post("/signin" , async function(req,res){
+    const email = req.body.email
+    const password = req.body.password
 
+    const exist_user = await usermodel.findOne({
+        email
+    })
+    if(!exist_user){
+        res.json({
+            msg : "USER NOT EXIST"
+        })
+        return
+    }
+
+    const password_match = bcrypt.compare(password,exist_user.password)
+    if(password_match){
+        const token = jwt.sign({
+            userid : exist_user._id
+        },JWT_USER)
+        res.json({
+            token : token
+        })
+    }else{
+        res.json({
+            msg : "INCORRECT PASSWORD"
+        })
+    }
 })
 
 module.exports = {
