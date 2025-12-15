@@ -21,7 +21,7 @@ const notes = new Schema({
 })
 
 //for search optimization
-notesSchema.index({title : "text" , content : "text"})
+notes.index({title : "text" , content : "text"})
 
 const usermodel = mongoose.model("user" , user)
 const notesmodel = mongoose.model("notes",notes)
