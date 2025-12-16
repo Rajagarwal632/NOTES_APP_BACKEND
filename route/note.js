@@ -65,7 +65,21 @@ noteroute.put("/:id",userauth , async function(req,res){
     }
 })
 noteroute.delete("/:id",userauth , async function(req,res){
-
+    const userid = req.userid
+    const note_id = req.params.id
+    const delete_note = await notesmodel.findOneAndDelete({
+        _id : note_id,
+        userid:userid
+    })
+    if(delete_note){
+        res.json({
+            msg : "NOTE DELETED"
+        })
+    }else{
+        res.status(404).json({
+            msg : "NOTE NOT FOUND"
+        })
+    }
 })
 noteroute.get("/",userauth , async function(req,res){
     const userid = req.userid
