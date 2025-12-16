@@ -92,10 +92,43 @@ noteroute.get("/",userauth , async function(req,res){
     })
 })
 noteroute.get("/search",userauth , async function(req,res){
+    const userid = req.userid
+    const q = req.query.q
 
+    const note = await notesmodel.find({
+        userid : userid ,
+        $text : {$search : q}
+    })
+    if(!note){
+        return res.status(404).json({
+            msg : "NOT FUOND"
+        })
+    }
+    res.json({
+        msg : "FOUND",
+        note
+    })
 })
 noteroute.patch("/:id/archive",userauth , async function(req,res){
+    const userid = req.userid
+    const note_id = req.params.id
+    const note_patch = await notesmodel.findOne({
+        _id : note_id,
+        userid : userid
+    })
+    if(!note_patch){
+        return res.json({
+            msg : "NOTE NOT FOUND"
+        })
+    }
+    note_patch.archived = !note_patch.archived
 
+    await note_patch.save()
+
+    res.json({
+        msg : "ARCHIEVED CHANGED",
+        new_archieved : note_patch.archived
+    })
 })
 
 module.exports = {
