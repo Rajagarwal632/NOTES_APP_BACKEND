@@ -3,7 +3,7 @@ const noteroute = Router()
 const {z} = require("zod")
 
 const mongoose = require("mongoose")
-const {notesmodel } = require("../config/db")
+const {notesmodel, usermodel } = require("../config/db")
 const {userauth} = require("../middleware/userauth")
 
 noteroute.post("/",userauth , async function(req,res){
@@ -38,7 +38,14 @@ noteroute.delete("/:id",userauth , async function(req,res){
 
 })
 noteroute.get("/",userauth , async function(req,res){
-    
+    const userid = req.userid
+    const notes = await notesmodel.find({
+        userid
+    })
+    res.json({
+        msg : "ALL NOTES ARE :-",
+        notes : notes
+    })
 })
 noteroute.get("/search",userauth , async function(req,res){
 
